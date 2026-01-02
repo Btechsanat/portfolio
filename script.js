@@ -1,167 +1,69 @@
-// script.js
-
-// Theme toggle (light/dark saved in localStorage)
-const themeBtn = document.querySelector('.toggle-theme');
-function applyTheme(saved) {
-  if (!saved) return;
-  if (saved === 'dark') document.documentElement.dataset.theme = 'dark';
-  else document.documentElement.removeAttribute('data-theme');
-  const icon = document.querySelector('.toggle-theme i');
-  if (icon) icon.className = saved === 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
-}
 document.addEventListener('DOMContentLoaded', () => {
-  const saved = localStorage.getItem('site-theme') || 'dark';
-  applyTheme(saved);
-});
-if (themeBtn) {
-  themeBtn.addEventListener('click', () => {
-    const current = localStorage.getItem('site-theme') || 'dark';
-    const next = current === 'dark' ? 'light' : 'dark';
-    localStorage.setItem('site-theme', next);
-    applyTheme(next);
-  });
-}
+  // Initialize AOS
+  AOS.init({ duration: 1000, once: true });
 
-// Mobile nav toggle
-const navToggle = document.querySelector('.nav-toggle');
-const navList = document.querySelector('.nav-list');
+  // Mobile Menu Toggle
+  const menuBtn = document.getElementById('menuBtn');
+  const navList = document.getElementById('navList');
 
-function openMenu() {
-  navList.classList.add('open');
-  navToggle.classList.add('is-open');
-  navToggle.setAttribute('aria-expanded', 'true');
-  navList.setAttribute('aria-hidden', 'false');
-}
-function closeMenu() {
-  navList.classList.remove('open');
-  navToggle.classList.remove('is-open');
-  navToggle.setAttribute('aria-expanded', 'false');
-  navList.setAttribute('aria-hidden', 'true');
-}
-
-if (navToggle && navList) {
-  navToggle.addEventListener('click', () => {
-    if (navList.classList.contains('open')) closeMenu();
-    else openMenu();
-  });
-
-  /// close when a nav link clicked (mobile)
-navList.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-  if (window.innerWidth <= 880) closeMenu();
-}));
-
-
-  // close on Escape
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeMenu();
-  });
-
-  // close when clicking outside the menu on mobile
-  document.addEventListener('click', (e) => {
-    if (!navList.classList.contains('open')) return;
-    const isClickInside = navList.contains(e.target) || navToggle.contains(e.target);
-    if (!isClickInside && window.innerWidth <= 880) closeMenu();
-  });
-}
-
-// AOS init (if loaded)
-if (window.AOS) AOS.init({ once: true, duration: 700, easing: 'ease-out' });
-
-// IntersectionObserver for welcome drop
-document.addEventListener('DOMContentLoaded', () => {
-  const toDrop = document.querySelectorAll('.welcome-title, .address-line');
-  if (toDrop.length) {
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) e.target.classList.add('in-view');
-      });
-    }, { threshold: 0.5 });
-    toDrop.forEach(el => obs.observe(el));
-  }
-});
-
-// Setup AJAX contact handling if present
-  const form = document.querySelector('.contact-form');
-  if (form) {
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const btn = form.querySelector('button[type="submit"]');
-      const status = document.querySelector('#form-status');
-      if (btn) btn.disabled = true, btn.textContent = 'Sending...';
-      try {
-        const res = await fetch(form.action, {
-          method: 'POST',
-          body: new FormData(form),
-          headers: { 'Accept': 'application/json' }
-        });
-        if (res.ok) {
-          status.textContent = 'Thanks — message sent!';
-          status.style.color = 'green';
-          form.reset();
-        } else {
-          const data = await res.json();
-          status.textContent = (data && data.error) ? data.error : 'Oops — there was a problem.';
-          status.style.color = 'crimson';
-        }
-      } catch (err) {
-        status.textContent = 'Network error — please try again later.';
-        status.style.color = 'crimson';
-      } finally {
-        if (btn) btn.disabled = false, btn.textContent = 'Send Message';
-      }
+  if (menuBtn) {
+    menuBtn.addEventListener('click', () => {
+      navList.classList.toggle('open');
+      const icon = menuBtn.querySelector('i');
+      icon.classList.toggle('fa-bars');
+      icon.classList.toggle('fa-times');
     });
   }
-const canvas = document.getElementById("particles");
-const ctx = canvas.getContext("2d");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+  // Typewriter Effect
+  const typingElement = document.getElementById('typing');
+  if (typingElement) {
+    const words = ["A Robotics Engineer", "An IoT Developer", "A Quick Learner", "A Tech Innovator"];
+    let wordIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
 
-let particlesArray = [];
+    function type() {
+      const currentWord = words[wordIndex];
+      if (isDeleting) {
+        typingElement.textContent = currentWord.substring(0, charIndex - 1);
+        charIndex--;
+      } else {
+        typingElement.textContent = currentWord.substring(0, charIndex + 1);
+        charIndex++;
+      }
 
-class Particle {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-    this.size = Math.random() * 2 + 1;
-    this.speedX = (Math.random() - 0.5) * 0.5;
-    this.speedY = (Math.random() - 0.5) * 0.5;
-    this.color = "rgba(255, 215, 102, 0.8)";
+      let typeSpeed = isDeleting ? 50 : 100;
+
+      if (!isDeleting && charIndex === currentWord.length) {
+        isDeleting = true;
+        typeSpeed = 2000; // Pause at end
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        wordIndex = (wordIndex + 1) % words.length;
+        typeSpeed = 500;
+      }
+
+      setTimeout(type, typeSpeed);
+    }
+    type();
   }
-  update() {
-    this.x += this.speedX;
-    this.y += this.speedY;
-    if (this.size > 0.2) this.size -= 0.01;
-  }
-  draw() {
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    ctx.fillStyle = this.color;
-    ctx.fill();
-  }
-}
 
-function initParticles() {
-  particlesArray = [];
-  for (let i = 0; i < 100; i++) {
-    particlesArray.push(new Particle(Math.random() * canvas.width, Math.random() * canvas.height));
+  // Particles.js Config
+  if (document.getElementById('particles-js')) {
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: 60, density: { enable: true, value_area: 800 } },
+        color: { value: "#ffd166" },
+        opacity: { value: 0.5 },
+        size: { value: 3 },
+        line_linked: { enable: true, distance: 150, color: "#ffd166", opacity: 0.2, width: 1 },
+        move: { enable: true, speed: 2 }
+      },
+      interactivity: {
+        events: { onhover: { enable: true, mode: "grab" } }
+      },
+      retina_detect: true
+    });
   }
-}
-
-function animateParticles() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  particlesArray.forEach(p => {
-    p.update();
-    p.draw();
-  });
-  requestAnimationFrame(animateParticles);
-}
-
-window.addEventListener("resize", () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  initParticles();
 });
-
-initParticles();
-animateParticles();

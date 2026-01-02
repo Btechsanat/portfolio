@@ -4,175 +4,137 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Sanat Patra | Home</title>
-  
-  <!-- Styles & libs -->
   <link rel="stylesheet" href="style.css" />
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Keeping all your existing styles exactly as they are */
+    .hero-modern { position: relative; padding-bottom: 50px; }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 2.5rem;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      margin-bottom: 2rem;
+    }
+    .hero-right { position: relative; width: 340px; height: 340px; display: flex; align-items: center; justify-content: center; }
+    .hero-right img { width: 280px; height: 280px; border-radius: 50%; object-fit: cover; border: 4px solid var(--accent-2); z-index: 2; }
+    .hero-right::before, .hero-right::after { content: ''; position: absolute; border-radius: 50%; border: 2px dashed var(--accent-2); }
+    .hero-right::before { width: 320px; height: 320px; animation: rotate-clockwise 15s linear infinite; opacity: 0.5; }
+    .hero-right::after { width: 340px; height: 340px; border: 2px solid var(--accent); border-top-color: transparent; border-bottom-color: transparent; animation: rotate-anticlockwise 10s linear infinite; }
+    @keyframes rotate-clockwise { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes rotate-anticlockwise { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+    .social-dock {
+      position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+      display: flex; gap: 2rem; background: rgba(11, 12, 16, 0.9);
+      padding: 12px 30px; border-radius: 50px; border: 1px solid var(--accent-2);
+      backdrop-filter: blur(10px); z-index: 1001; box-shadow: 0 0 20px rgba(34, 211, 238, 0.3);
+    }
+    .social-icon { font-size: 1.5rem; color: var(--text); transition: 0.3s; }
+    .social-icon:hover { color: var(--accent); transform: translateY(-5px); filter: drop-shadow(0 0 8px var(--accent)); }
+    .preview-section { padding: 4rem 2rem; max-width: 1100px; margin: auto; }
+    .section-title { font-family: 'Orbitron'; color: var(--accent); margin-bottom: 2rem; display: flex; align-items: center; gap: 10px; }
+    .section-title::after { content: ''; height: 2px; flex: 1; background: linear-gradient(90deg, var(--accent), transparent); }
+    .contact-preview { display: flex; justify-content: space-between; align-items: center; background: linear-gradient(135deg, rgba(34, 211, 238, 0.1), rgba(255, 209, 102, 0.1)); }
+    @media (max-width: 900px) {
+      .hero-right { width: 280px; height: 280px; }
+      .hero-right img { width: 220px; height: 220px; }
+      .hero-right::before { width: 250px; height: 250px; }
+      .hero-right::after { width: 270px; height: 270px; }
+      .contact-preview { flex-direction: column; text-align: center; gap: 1.5rem; }
+    }
+  </style>
 </head>
 <body class="premium-bg">
 
+  <div id="particles-js"></div>
+
   <header class="header">
-  <div class="brand">
-    <img src="profile.jpg" alt="Sanat Kumar Patra" class="brand-photo"/>
-    <div>
+    <div class="brand">
+      <img src="profile.jpg" class="brand-photo" alt="Sanat Patra">
       <h1 class="brand-name">Sanat Kumar Patra</h1>
-      <p class="brand-tag">B.tech-Robotics & Automation</p>
     </div>
-  </div>
-
-  <nav class="nav">
-    <ul class="nav-list" id="navList" aria-hidden="true">
-      <li><a href="index.html"class="active">Home</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="projects.html">Projects</a></li>
-      <li><a href="contact.html">Contact</a></li>
-      <li><a href="Sanat_cv.pdf" download>Resume</a></li>
-    </ul>
-  </nav>
-
-  <!-- hamburger moved to the corner; theme toggle removed -->
-  <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
-    <span class="hamburger"></span>
-  </button>
-</header>
-
-<div id="particles-js"></div>
+    <button class="nav-toggle" id="menuBtn"><i class="fas fa-bars"></i></button>
+    <nav class="nav">
+      <ul class="nav-list" id="navList">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="Sanat_cv.pdf" download>Resume</a></li>
+      </ul>
+    </nav>
+  </header>
 
   <main>
-    <section class="hero">
-  <canvas id="particles"></canvas>
-  
-  <div class="hero-content">
-    <div class="hero-image">
-      <img src="sanat.jpg" alt="Profile Picture">
-    </div>
-    <div>
-      <h1 class="tech-title">Hello -  I am <span>Sanat</span></h1>
-      <p class="hero-text">
-        
-        Welcome to my portfolio! This collection showcases my work, skills, and  experiences, offering a glimpse into my professional journey and creative pursuits.
-      </p>
-    </div>
-  </div>
-</section>
-
-      <div class="cta">
-        <!-- <a href="projects.html" class="btn">View Projects</a> -->
-        <!-- <a href="contact.html" class="btn btn-outline">Get in Touch</a> -->
-      </div>
-    </div>
-  </div>
-</section>
-
-    </section>
-
-    
-      <!-- About preview -->
-      <section data-aos="fade-up" data-aos-delay="220">
-        <h3>About Me</h3>
-        <p>I am a Robotics & Automation engineering student. I enjoy designing embedded systems, working with sensors/actuators, and applying machine learning for predictive tasks. I have hands-on experience with Arduinos, ESP32, Raspberry Pi and cloud dashboards.</p>
-        <div class="chips" style="margin-top:.8rem;">
-          <span class="chip"> Embedded Systems ,</span>
-          <span class="chip"> IoT ,</span>
-          <span class="chip"> Machine Learning ,</span>
-          <span class="chip"> Python</span>
-        </div>
-        <div style="margin-top:.9rem;">
-          <a href="about.html" class="btn">Read more</a>
-        </div>
-      </section>
-
-      <!-- Projects preview -->
-      <section data-aos="fade-up" data-aos-delay="320">
-        <h3>Projects</h3>
-        <div class="section-grid">
-          <div class="card">
-            <strong>Home Automation & Weather Monitor</strong>
-            <p class="muted">ESP32 + cloud dashboard for sensor monitoring and device control.</p>
+    <section class="hero-modern">
+      <div class="hero-left" data-aos="fade-right">
+        <div class="glass-card">
+          <p style="text-transform: uppercase; letter-spacing: 3px; font-size: 0.8rem; color: var(--accent);">B.Tech Robotics & Automation</p>
+          <h1>Hello, I’m <span>Sanat</span></h1>
+          <div class="typewriter"><span id="typing"></span></div>
+          <p class="hero-desc" style="margin-top: 1rem;">
+            Welcome to my portfolio! This collection showcases my work, skills, and  experiences, offering a glimpse into my professional journey and creative pursuits.
+          </p>
+          <div style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+            <a href="projects.html" class="btn-primary">View Projects</a>
+            <a href="Sanat_cv.pdf" download class="btn-primary" style="background: transparent; border: 1px solid var(--accent); color: var(--accent);">
+              <i class="fas fa-download"></i> Download Resume
+            </a>
           </div>
         </div>
-        <div style="margin-top:.8rem;"><a href="projects.html" class="btn">Show All Projects</a></div>
-      </section>
-      <!-- Contact preview -->
-<section data-aos="fade-up" data-aos-delay="420">
-  <h3>Contact</h3>
-  <p>If you'd like to collaborate, discuss a project, or just say hello, feel free to reach out.</p>
-  <div class="section-grid">
-    <div class="card">
-      <i class="fas fa-envelope"></i>
-      <strong>Email</strong>
-      <p><a href="mailto:sanatpatra37@gmail.com">sanatpatra37@gmail.com</a></p>
-    </div>
-    <div class="card">
-      <i class="fas fa-phone"></i>
-      <strong>Phone</strong>
-      <p><a href="tel:+918167416197">+91 81674 16197</a></p>
-    </div>
-    <div class="card">
-      <i class="fab fa-linkedin"></i>
-      <strong>LinkedIn</strong>
-      <p><a href="https://www.linkedin.com/in/sanat-kumar-patra-78b527294" target="_blank">View Profile</a></p>
-    </div>
-  </div>
-  <div style="margin-top: 0.8rem;">
-    <a href="contact.html" class="btn">Go to Contact Page</a>
-  </div>
-</section>
+      </div>
+      <div class="hero-right" data-aos="zoom-in">
+        <img src="sanat.jpg" alt="Sanat Kumar Patra">
+      </div>
+    </section>
 
-    
+    <section class="preview-section" data-aos="fade-up">
+      <h2 class="section-title">Discovery</h2>
+      <div class="glass-card">
+        <div style="display: flex; gap: 2rem; align-items: center; flex-wrap: wrap;">
+          <div style="flex: 1; min-width: 300px;">
+            <h3 style="color: var(--accent-2); margin-bottom: 1rem;">About Me</h3>
+            <p style="margin-bottom: 1.5rem;">A motivated engineering graduate seeking to apply technical knowledge in robotics and IoT.</p>
+            <div style="display: flex; gap: 2rem; margin-bottom: 1.5rem;">
+               <div><h4 style="color: var(--accent);">86.88%</h4><p style="font-size: 0.8rem;">B.Tech Score</p></div>
+               <div><h4 style="color: var(--accent);">Pass 2026</h4><p style="font-size: 0.8rem;">Grad Year</p></div>
+            </div>
+            <div style="display: flex; gap: 1.5rem; align-items: center;">
+              <a href="about.html" style="color: var(--accent-2); text-decoration: none; font-weight: 600;">Read More <i class="fas fa-arrow-right"></i></a>
+              <!-- <a href="Sanat_cv.pdf" download style="color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem;">
+                <i class="fas fa-file-pdf"></i> Save CV -->
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="preview-section" data-aos="fade-up" style="padding-bottom: 10rem;">
+      <h2 class="section-title">Connectivity</h2>
+      <div class="glass-card contact-preview">
+        <div>
+          <h3 style="color: var(--accent-2); margin-bottom: 0.5rem;">Let's work together</h3>
+          <p style="opacity: 0.8;">Available for internships and robotics collaborations.</p>
+        </div>
+        <a href="contact.html" class="btn-primary">Send Message</a>
+      </div>
+    </section>
   </main>
 
-  <footer class="site-footer" data-aos="fade-up">
-      <div class="footer-social">
-        <a href="https://github.com/Btechsanat" target="_blank" rel="noopener" class="social github" title="GitHub"><i class="fab fa-github"></i></a>
-      </div>
-      
-
-    <p>&copy; 2025 Sanat Kumar Patra</p>
-  </footer>
+  <div class="social-dock">
+    <a href="https://github.com/Btechsanat" target="_blank" class="social-icon" title="GitHub"><i class="fab fa-github"></i></a>
+    <a href="https://www.linkedin.com/in/sanat-kumar-patra-78b527294" target="_blank" class="social-icon" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+    <a href="mailto:sanatpatra37@gmail.com" class="social-icon" title="Gmail"><i class="fas fa-envelope"></i></a>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
   <script src="script.js"></script>
-
-<!-- Particle.js Library -->
-<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-
-<!-- Particle.js Config -->
-<script>
-particlesJS("particles-js", {
-  particles: {
-    number: { value: 80, density: { enable: true, value_area: 800 } },
-    color: { value: "#ffd166" },
-    shape: { type: "circle" },
-    opacity: { value: 0.7, random: true },
-    size: { value: 4, random: true },
-    move: { 
-      enable: true, 
-      speed: 1, 
-      direction: "none", 
-      random: true, 
-      straight: false, 
-      out_mode: "out", 
-      bounce: false 
-    }
-  },
-  interactivity: {
-    detect_on: "canvas",
-    events: {
-      onhover: { enable: true, mode: "grab" },
-      onclick: { enable: true, mode: "push" }
-    },
-    modes: {
-      grab: { distance: 150, line_linked: { opacity: 0.3 } },
-      push: { particles_nb: 4 }
-    }
-  },
-  retina_detect: true
-});
-</script>
-
 </body>
 </html>
-
